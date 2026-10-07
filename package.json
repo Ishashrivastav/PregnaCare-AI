@@ -5,13 +5,13 @@
   "description": "PregnaCare AI - Your Intelligent Pregnancy Care Companion",
   "workspaces": [
     "server",
-    "apps/*",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {
     "dev": "npm run dev --workspace=server",
     "dev:web": "npm run dev --workspace=apps/web",
-    "dev:mobile": "npm run start --workspace=apps/mobile",
+    "dev:mobile": "npm run start --prefix apps/mobile",
     "build": "npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "db:seed": "npm run db:seed --workspace=server",
