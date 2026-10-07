@@ -2,7 +2,7 @@
 
 ### *Your Intelligent Pregnancy Care Companion*
 
-[![CI Pipeline](https://github.com/ishashwat/PregnaCare-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/ishashwat/PregnaCare-AI/actions/workflows/ci.yml)
+[![CI Pipeline](https://github.com/Ishashrivastav/PregnaCare-AI/actions/workflows/ci.yml/badge.svg)](https://github.com/Ishashrivastav/PregnaCare-AI/actions/workflows/ci.yml)
 [![Node.js](https://img.shields.io/badge/Node.js-v20-339933?logo=node.js)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://react.dev)
 [![React Native](https://img.shields.io/badge/React%20Native-0.74-000020?logo=react)](https://reactnative.dev)
@@ -688,7 +688,7 @@ PregnaCare-AI/
 
 ### Step 1: Clone Repository & Install Dependencies
 ```bash
-git clone https://github.com/ishashwat/PregnaCare-AI.git
+git clone https://github.com/Ishashrivastav/PregnaCare-AI.git
 cd PregnaCare-AI
 
 # Install all monorepo dependencies across workspaces
@@ -940,7 +940,7 @@ npm test
 <a id="contributing"></a>
 ## 🤝 Contributing
 
-1. Fork the repository (`git fork https://github.com/ishashwat/PregnaCare-AI`).
+1. Fork the repository (`git fork https://github.com/Ishashrivastav/PregnaCare-AI`).
 2. Create your feature branch (`git checkout -b feature/clinical-milestone-enhancement`).
 3. Commit your changes (`git commit -m 'feat: add enhanced fetal growth milestone tracker'`).
 4. Ensure all tests pass (`npm test --workspaces`).
