@@ -15,12 +15,24 @@ app.use(helmet());
 app.use(
   cors({
     origin: (origin, callback) => {
-      // Allow mobile apps (no origin) or whitelisted origins or local dev
-      if (!origin || config.corsOrigins.includes(origin) || config.nodeEnv === 'development') {
-        callback(null, true);
-      } else {
-        callback(null, true); // Dev-permissive fallback to facilitate testing
+      // 1. Allow mobile apps or same-origin / server-to-server (no origin header)
+      if (!origin) {
+        return callback(null, true);
       }
+      // 2. Allow configured CORS origins (e.g. from CORS_ORIGIN env var)
+      if (config.corsOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      // 3. Allow Vercel preview and production deployments (*.vercel.app)
+      if (/^https:\/\/.*\.vercel\.app$/.test(origin)) {
+        return callback(null, true);
+      }
+      // 4. In development, allow localhost origins
+      if (config.nodeEnv === 'development' || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+      // Reject unknown origins in production
+      callback(new Error(`Origin ${origin} not allowed by CORS`));
     },
     credentials: true,
   })

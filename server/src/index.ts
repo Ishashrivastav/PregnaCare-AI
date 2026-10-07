@@ -20,3 +20,6 @@ async function main() {
 }
 
 main();
+
+export { app };
+export default app;

@@ -40,11 +40,17 @@ try {
   console.log('⚙️  Generating Prisma Client...');
   execSync('npx prisma generate', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
   
-  console.log('🚀 Pushing database schema...');
-  execSync('npx prisma db push', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+  if (!process.env.VERCEL && !process.env.SKIP_DB_PUSH) {
+    try {
+      console.log('🚀 Pushing database schema...');
+      execSync('npx prisma db push --skip-generate', { stdio: 'inherit', cwd: path.join(__dirname, '..') });
+    } catch (pushErr) {
+      console.warn('⚠️ Could not connect to database to push schema directly. Skipping push for build step.');
+    }
+  }
   
   console.log('✅ Database setup successfully initialized.');
 } catch (error) {
-  console.error('❌ Failed to push database schema:', error.message);
+  console.error('❌ Failed to prepare database:', error.message);
   process.exit(1);
 }

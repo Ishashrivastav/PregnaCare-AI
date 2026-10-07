@@ -35,7 +35,7 @@ export class AuthService {
     const token = jwt.sign(
       { id: user.id, email: user.email, fullName: user.fullName },
       config.jwtSecret,
-      { expiresIn: config.jwtExpiresIn }
+      { expiresIn: config.jwtExpiresIn as any }
     );
 
     return { user, token };
@@ -61,7 +61,7 @@ export class AuthService {
     const token = jwt.sign(
       { id: user.id, email: user.email, fullName: user.fullName },
       config.jwtSecret,
-      { expiresIn: config.jwtExpiresIn }
+      { expiresIn: config.jwtExpiresIn as any }
     );
 
     const { passwordHash, ...userWithoutPassword } = user;
