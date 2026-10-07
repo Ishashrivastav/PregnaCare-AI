@@ -1,0 +1,32 @@
+{
+  "name": "pregnacare-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PregnaCare AI - Your Intelligent Pregnancy Care Companion",
+  "workspaces": [
+    "server",
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=server",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:mobile": "npm run start --workspace=apps/mobile",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "db:seed": "npm run db:seed --workspace=server",
+    "lint": "npm run lint --workspaces --if-present"
+  },
+  "keywords": [
+    "pregnancy",
+    "maternal-health",
+    "ai-healthcare",
+    "project-management",
+    "react",
+    "react-native",
+    "express",
+    "prisma"
+  ],
+  "author": "PregnaCare AI Team",
+  "license": "MIT"
+}

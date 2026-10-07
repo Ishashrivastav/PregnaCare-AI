@@ -1,0 +1,39 @@
+{
+  "expo": {
+    "name": "PregnaCare AI",
+    "slug": "pregnacare-ai",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#faf9f8"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pregnacare.app"
+    },
+    "android": {
+      "package": "com.pregnacare.app",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#f06595"
+      },
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "pregnacare-ai-demo-project"
+      }
+    }
+  }
+}
