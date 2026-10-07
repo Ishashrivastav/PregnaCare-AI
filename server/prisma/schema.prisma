@@ -3,8 +3,38 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ProjectStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum TaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum AppointmentStatus {
+  UPCOMING
+  COMPLETED
+  CANCELLED
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
 }
 
 model User {
@@ -62,18 +92,18 @@ model Doctor {
 }
 
 model Appointment {
-  id              String   @id @default(uuid())
+  id              String            @id @default(uuid())
   userId          String
-  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   doctorId        String
-  doctor          Doctor   @relation(fields: [doctorId], references: [id], onDelete: Cascade)
+  doctor          Doctor            @relation(fields: [doctorId], references: [id], onDelete: Cascade)
   appointmentDate DateTime
   appointmentTime String
   appointmentType String
   notes           String?
-  status          String   @default("UPCOMING")
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  status          AppointmentStatus @default(UPCOMING)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
 
   @@index([userId])
   @@index([doctorId])
@@ -81,16 +111,16 @@ model Appointment {
 }
 
 model Project {
-  id          String    @id @default(uuid())
+  id          String        @id @default(uuid())
   userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   description String?
-  status      String    @default("NOT_STARTED")
+  status      ProjectStatus @default(NOT_STARTED)
   startDate   DateTime?
   endDate     DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
   tasks       Task[]
 
@@ -99,18 +129,18 @@ model Project {
 }
 
 model Task {
-  id          String    @id @default(uuid())
+  id          String       @id @default(uuid())
   projectId   String
-  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
   userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
   description String?
-  priority    String    @default("MEDIUM")
-  status      String    @default("PENDING")
+  priority    TaskPriority @default(MEDIUM)
+  status      TaskStatus   @default(PENDING)
   dueDate     DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
 
   @@index([userId])
   @@index([projectId])
@@ -163,15 +193,15 @@ model ChatSession {
 }
 
 model ChatMessage {
-  id                         String   @id @default(uuid())
+  id                         String      @id @default(uuid())
   chatSessionId              String
   chatSession                ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  role                       String   @default("USER")
+  role                       MessageRole @default(USER)
   content                    String
   concernCategory            String?
   recommendedDoctorSpecialty String?
-  isSafetyAlert              Boolean  @default(false)
-  createdAt                  DateTime @default(now())
+  isSafetyAlert              Boolean     @default(false)
+  createdAt                  DateTime    @default(now())
 
   @@index([chatSessionId])
   @@map("chat_messages")

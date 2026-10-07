@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '../.env') });
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-const dbUrl = process.env.DATABASE_URL || 'file:./dev.db';
+const dbUrl = process.env.DATABASE_URL || '';
 const prismaDir = path.join(__dirname, '../prisma');
 const schemaTarget = path.join(prismaDir, 'schema.prisma');
 const sqliteSchema = path.join(prismaDir, 'schema.sqlite.prisma');
@@ -24,9 +24,9 @@ if (!fs.existsSync(pgSchema) && fs.existsSync(schemaTarget)) {
   }
 }
 
-console.log(`🔍 Database configuration detected: ${dbUrl}`);
+console.log(`🔍 Database configuration: ${dbUrl ? (dbUrl.startsWith('file:') ? 'SQLite' : 'PostgreSQL (from DATABASE_URL)') : 'Default (PostgreSQL / schema.prisma)'}`);
 
-if (dbUrl.startsWith('file:') || dbUrl.includes('.db')) {
+if (dbUrl && (dbUrl.startsWith('file:') || dbUrl.includes('.db'))) {
   console.log('🔄 Configuring Prisma for local SQLite database...');
   if (fs.existsSync(sqliteSchema)) {
     fs.copyFileSync(sqliteSchema, schemaTarget);
