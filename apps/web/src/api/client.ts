@@ -1,4 +1,29 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api');
+function sanitizeApiBaseUrl(rawUrl?: string): string {
+  let url = (rawUrl || '').trim();
+
+  if (!url) {
+    return import.meta.env.DEV
+      ? 'http://localhost:5000/api'
+      : 'https://pregnacare-ai-backend.onrender.com/api';
+  }
+
+  // Strip trailing slashes
+  url = url.replace(/\/+$/, '');
+
+  // Strip accidental /health from the base URL if configured in deployment
+  if (url.endsWith('/health')) {
+    url = url.slice(0, -7).replace(/\/+$/, '');
+  }
+
+  // Ensure path ends with /api
+  if (!url.endsWith('/api') && !url.includes('/api/')) {
+    url = `${url}/api`;
+  }
+
+  return url;
+}
+
+const API_BASE_URL = sanitizeApiBaseUrl(import.meta.env.VITE_API_URL);
 
 class ApiClient {
   private getHeaders(): HeadersInit {
@@ -65,6 +90,17 @@ class ApiClient {
 
   async getMe() {
     return this.request('/auth/me');
+  }
+
+  async logout() {
+    try {
+      await this.request('/auth/logout', { method: 'POST' });
+    } catch {
+      // ignore
+    } finally {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }
   }
 
   // Pregnancy Profile
@@ -272,6 +308,11 @@ class ApiClient {
   // Dashboard
   async getDashboard() {
     return this.request('/dashboard');
+  }
+
+  // Health check (independently calls /health, never part of API base URL)
+  async checkHealth() {
+    return this.request('/health');
   }
 }
 
